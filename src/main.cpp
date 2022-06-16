@@ -11,11 +11,11 @@ typedef struct _my_u128 {
 	u64 low;
 } u128;
 
-bool masking(u8 mask, u8 text)
+u8 masking(u8 mask, u8 text)
 {
 	u8 count = 0;
-	for (u8 mid_res = mask & text; mid_res > 0; mid_res = mid_res >> 1)
-		count += mid_res & 1;
+	for (u8 mid_res = (mask & text); mid_res > 0; mid_res = mid_res/2)
+		count += (mid_res & 1);
 	return count & 1;
 }
 
@@ -47,6 +47,7 @@ int main(int argc, char** argv) {
 	
 	//"максимальный" открытый текст, для цикла
 	u16 maximum_pt = std::pow(2, pt_bit_length) - 1;
+	u16 potency = std::pow(2, pt_bit_length);
 	
 	//int alpha = distribution(gen); //генерируем alpha
 	for (int alpha = 1; alpha < 16; alpha++) {
@@ -57,7 +58,7 @@ int main(int argc, char** argv) {
 	//std::cout << "Mask2: " << std::setw(9) << std::bitset<8>(mask2) << std::endl;
 	double c1_mean = 0;
 	double c2_mean = 0;
-	int loop = 100;
+	int loop = 1000;
 	for (int i = 0; i < loop; i++)
 	{
 		(tweak[0]).tweak[1] = randomU64(gen);//Вторая половина настройки, выбирается случайно
@@ -87,17 +88,27 @@ int main(int argc, char** argv) {
 			if (masking(ct[0], mask1) == masking(pt[0],mask1)) // проверяем выполнение соотношения для первой маски
 			{
 				c1+= 1;
-				//std::cout << std::endl << std::endl << std::endl << "YEEEEEEEEES#1" << std::endl << std::endl << std::endl;
+				/*
+				std::cout << "Plaintext:          " << std::setw(8) << std::bitset<8>(pt[0]) << std::endl;
+				std::cout << "Mask1:              " << std::setw(8) << std::bitset<8>(mask1) << std::endl;
+				std::cout << "Ciphertext:         " << std::setw(8) << std::bitset<8>(ct[0]) << std::endl << std::endl;
+				*/
 			}
 			if (masking(ct[0], mask2) == masking(pt[0],mask2)) // проверяем выполнение соотношения для второй маски
 			{
 				c2+= 1;
-				//std::cout << std::endl << std::endl << std::endl << "YEEEEEEEEES#2" << std::endl << std::endl << std::endl;
+				/*
+				std::cout << "Plaintext:          " << std::setw(8) << std::bitset<8>(pt[0]) << std::endl;
+				std::cout << "Mask2:              " << std::setw(8) << std::bitset<8>(mask2) << std::endl;
+				std::cout << "Ciphertext:         " << std::setw(8) << std::bitset<8>(ct[0]) << std::endl << std::endl;
+				*/
 			}
 			if (pt[0] == maximum_pt) break;
 		}
-		c1 = std::pow(2*c1/maximum_pt - 1, 2);
-		c2 = std::pow(2*c2/maximum_pt - 1, 2);
+		//std::cout << "c1: " << (int)c1 << std::endl;
+		//std::cout << "c2: " << (int)c2 << std::endl;
+		c1 = std::pow(2*c1/potency - 1, 2);
+		c2 = std::pow(2*c2/potency - 1, 2);
 		c1_mean += c1;
 		c2_mean += c2;
 	}

@@ -1,59 +1,59 @@
 Alpha = 1
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.000999616
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00876489
 
 Alpha = 2
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.000625606
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00392578
 
 Alpha = 3
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 1.53787e-05
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00101587
 
 Alpha = 4
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00089381
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.004
 
 Alpha = 5
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00342822
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00927246
 
 Alpha = 6
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00397693
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00355078
 
 Alpha = 7
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00144498
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.000981201
 
 Alpha = 8
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00411473
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00846606
 
 Alpha = 9
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00102176
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00381641
 
 Alpha = 10
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.000871665
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00910767
 
 Alpha = 11
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.0129532
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0
 
 Alpha = 12
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.000744944
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.0092395
 
 Alpha = 13
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 1.53787e-05
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00390918
 
 Alpha = 14
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00344298
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00887695
 
 Alpha = 15
-0|alpha experimental correlation: 1.53787e-05
-alpha|0 experimental correlation: 0.00128997
+0|alpha experimental correlation: 0
+alpha|0 experimental correlation: 0.00386621
