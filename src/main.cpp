@@ -11,14 +11,22 @@ typedef struct _my_u128 {
 	u64 low;
 } u128;
 
+bool masking(u8 mask, u8 text)
+{
+	u8 count = 0;
+	for (u8 mid_res = mask & text; mid_res > 0; mid_res = mid_res >> 1)
+		count += mid_res & 1;
+	return count & 1;
+}
+
 int main(int argc, char** argv) {
 	int nb_rounds = 2;
 	size_t block_size = 8;
 	int key_bit_length = 128;
-	size_t pt_bit_length = 4;
+	size_t pt_bit_length = 8;
 	int shift = 64 - pt_bit_length; // сдвиг добавила для совместимости с их функциями
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distribution(1, 15); // для маски 0|alpha
+	std::uniform_int_distribution<> distribution(1, std::pow(2,pt_bit_length/2) - 1); // для маски 0|alpha
 	
 	// структуры для задания конфигурации
 	fpe_transform_ctx transform_ctx[1];
@@ -38,7 +46,7 @@ int main(int argc, char** argv) {
 	(tweak[0]).tweak[0] = 0;//randomU64(gen);
 	
 	//"максимальный" открытый текст, для цикла
-	u16 maximum_pt = std::pow(2, pt_bit_length);
+	u16 maximum_pt = std::pow(2, pt_bit_length) - 1;
 	
 	//int alpha = distribution(gen); //генерируем alpha
 	for (int alpha = 1; alpha < 16; alpha++) {
@@ -49,13 +57,13 @@ int main(int argc, char** argv) {
 	//std::cout << "Mask2: " << std::setw(9) << std::bitset<8>(mask2) << std::endl;
 	double c1_mean = 0;
 	double c2_mean = 0;
-	int loop = 1000;
+	int loop = 100;
 	for (int i = 0; i < loop; i++)
 	{
 		(tweak[0]).tweak[1] = randomU64(gen);//Вторая половина настройки, выбирается случайно
 		double c1 = 0;
 		double c2 = 0;
-		for (u8 pt [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; pt[0] != maximum_pt - 1; pt[0] += 1) // Перебираем все открытые тексты
+		for (u8 pt [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; pt[0] <= maximum_pt; pt[0] += 1) // Перебираем все открытые тексты
 		{
 
 			//std::cout << "Plaintext:          " << std::setw(8) << std::bitset<8>(pt[0]) << std::endl;
@@ -76,16 +84,17 @@ int main(int argc, char** argv) {
 			//std::cout << "Ciphertext & mask1: " << std::setw(8) << std::bitset<8>(ct[0] & mask1) << std::endl;
 			//std::cout << "Mask2:              " << std::setw(8) << std::bitset<8>(mask2) << std::endl;
 			//std::cout << "Ciphertext & mask2: " << std::setw(8) << std::bitset<8>(ct[0] & mask2) << std::endl << std::endl;
-			if ((ct[0] & mask1) == (pt[0] & mask1)) // проверяем выполнение соотношения для первой маски
+			if (masking(ct[0], mask1) == masking(pt[0],mask1)) // проверяем выполнение соотношения для первой маски
 			{
 				c1+= 1;
 				//std::cout << std::endl << std::endl << std::endl << "YEEEEEEEEES#1" << std::endl << std::endl << std::endl;
 			}
-			if ((ct[0] & mask2) == (pt[0] & mask2)) // проверяем выполнение соотношения для второй маски
+			if (masking(ct[0], mask2) == masking(pt[0],mask2)) // проверяем выполнение соотношения для второй маски
 			{
 				c2+= 1;
 				//std::cout << std::endl << std::endl << std::endl << "YEEEEEEEEES#2" << std::endl << std::endl << std::endl;
 			}
+			if (pt[0] == maximum_pt) break;
 		}
 		c1 = std::pow(2*c1/maximum_pt - 1, 2);
 		c2 = std::pow(2*c2/maximum_pt - 1, 2);
